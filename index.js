@@ -36,10 +36,13 @@ async function run() {
         // await client.db("admin").command({ ping: 1 });
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
+        const campaignCollection = client.db("campaignDB").collection("campaign");
 
-        app.post('/campaigns', async (req, res) => {
+        app.post('/campaign', async (req, res) => {
             const newCampaign = req.body;
-            console.log(newCampaign);
+
+            const result = await campaignCollection.insertOne(newCampaign);
+            res.send(result);
         })
     } finally {
         //   // Ensures that the client will close when you finish/error
