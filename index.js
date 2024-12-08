@@ -55,8 +55,14 @@ async function run() {
             res.send(result);
         })
 
-
+        // AllCampaign section of client side
         app.get('/allCampaign', async (req, res) => {
+            const result = await campaignCollection.find().toArray();
+            res.send(result);
+        })
+
+        // AllCampaign section of client side
+        app.get('/myCampaign', async (req, res) => {
             const result = await campaignCollection.find().toArray();
             res.send(result);
         })
