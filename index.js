@@ -37,6 +37,7 @@ async function run() {
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
         const campaignCollection = client.db("campaignDB").collection("campaign");
+        const donateCollection = client.db("campaignDB").collection("donate");
 
         // AddNewCampaign section of client side
         app.post('/campaign', async (req, res) => {
@@ -45,6 +46,25 @@ async function run() {
             const result = await campaignCollection.insertOne(newCampaign);
             res.send(result);
         })
+
+
+        // CampaignDetail section of client side
+        app.get('/campaignDetail/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+
+            const result = await campaignCollection.findOne(query);
+            res.send(result);
+        })
+
+        // CampaignDetail section of client side
+        app.post('/campaignDetail/:id', async (req, res) => {
+            const newCampaign = req.body;
+
+            const result = await donateCollection.insertOne(newCampaign);
+            res.send(result);
+        })
+
 
         // RunningCampaign & Home sections of client side
         app.get('/runningCampaign', async (req, res) => {
@@ -55,11 +75,13 @@ async function run() {
             res.send(result);
         })
 
+
         // AllCampaign section of client side
         app.get('/allCampaign', async (req, res) => {
             const result = await campaignCollection.find().toArray();
             res.send(result);
         })
+
 
         // myCampaign section of client side
         app.get('/myCampaign', async (req, res) => {
@@ -75,6 +97,7 @@ async function run() {
             const result = await campaignCollection.deleteOne(query);
             res.send(result);
         })
+
 
         // updateCampaign section of client side
         app.get('/updateCampaign/:id', async (req, res) => {
