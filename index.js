@@ -54,6 +54,12 @@ async function run() {
             const result = await campaignCollection.find({ deadline: { $gt: formattedDate } }).limit(6).toArray();
             res.send(result);
         })
+
+
+        app.get('/allCampaign', async (req, res) => {
+            const result = await campaignCollection.find().toArray();
+            res.send(result);
+        })
     } finally {
         //   // Ensures that the client will close when you finish/error
         //   await client.close();
