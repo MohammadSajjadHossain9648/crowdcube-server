@@ -75,6 +75,39 @@ async function run() {
             const result = await campaignCollection.deleteOne(query);
             res.send(result);
         })
+
+        // updateCampaign section of client side
+        app.get('/updateCampaign/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+
+            const result = await campaignCollection.findOne(query);
+            res.send(result);
+        })
+
+        // updateCampaign section of client side
+        app.put('/updateCampaign/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = {_id: new ObjectId(id)};
+            const options = { upsert: true };
+
+            const updatedCampaign = req.body;
+            const updatedCampaignData = {
+                $set: {
+                    thumbnail: updatedCampaign.thumbnail,
+                    title: updatedCampaign.title,
+                    campaignType: updatedCampaign.campaignType,
+                    description: updatedCampaign.description,
+                    minDonation: updatedCampaign.minDonation,
+                    deadline: updatedCampaign.deadline,
+                    email: updatedCampaign.email,
+                    name: updatedCampaign.name
+                }
+            }
+
+            const result = await campaignCollection.updateOne(filter, updatedCampaignData, options);
+            res.send(result);
+        })
     } finally {
         //   // Ensures that the client will close when you finish/error
         //   await client.close();
