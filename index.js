@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express();
 
@@ -61,9 +61,18 @@ async function run() {
             res.send(result);
         })
 
-        // AllCampaign section of client side
+        // myCampaign section of client side
         app.get('/myCampaign', async (req, res) => {
             const result = await campaignCollection.find().toArray();
+            res.send(result);
+        })
+
+        // myCampaign section of client side
+        app.delete('/myCampaign/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+
+            const result = await campaignCollection.deleteOne(query);
             res.send(result);
         })
     } finally {
