@@ -131,6 +131,13 @@ async function run() {
             const result = await campaignCollection.updateOne(filter, updatedCampaignData, options);
             res.send(result);
         })
+
+
+        // MyDonations section of client side
+        app.get('/myDonations', async (req, res) => {
+            const result = await donateCollection.find().toArray();
+            res.send(result);
+        })
     } finally {
         //   // Ensures that the client will close when you finish/error
         //   await client.close();
